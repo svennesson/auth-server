@@ -18,8 +18,17 @@ public class AccessTokenService {
         return Optional.ofNullable(tokenDao.findByToken(token));
     }
 
-    public AccessToken generateAccessToken(final Long userId) {
+    AccessToken generateAccessToken(final Long userId) {
+        final Optional<AccessToken> tokenByUserId = Optional.ofNullable(tokenDao.findByUserId(userId));
         final UUID generatedID = UUID.randomUUID();
-        return tokenDao.insertAccessToken(generatedID, userId);
+        final AccessToken token;
+
+        if (tokenByUserId.isPresent()) {
+            token = tokenDao.updateAccessToken(generatedID, userId);
+        } else {
+            token = tokenDao.insertAccessToken(generatedID, userId);
+        }
+
+        return token;
     }
 }

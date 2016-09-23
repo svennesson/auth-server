@@ -18,6 +18,8 @@ public class BasicCredentials {
         this.password = password;
     }
 
+    public BasicCredentials() {}
+
     public String getEmail() {
         return email;
     }

@@ -9,8 +9,4 @@ public class EntityAlreadyExistsException extends WebApplicationException{
     public EntityAlreadyExistsException(String email) {
         super("User with email " + email + " already exists. Please log in instead.", CONFLICT);
     }
-
-    public EntityAlreadyExistsException() {
-        super("User already exists. Please log in instead.", CONFLICT);
-    }
 }

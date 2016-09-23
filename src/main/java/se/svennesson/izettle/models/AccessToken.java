@@ -1,18 +1,18 @@
 package se.svennesson.izettle.models;
 
 import com.google.common.base.MoreObjects;
-import org.joda.time.DateTime;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 public class AccessToken {
 
     private UUID token;
-    private DateTime distributedTime;
+    private LocalDateTime distributedTime;
     private Long userId;
 
-    public AccessToken(UUID token, DateTime distributedTime, Long userId) {
+    public AccessToken(UUID token, LocalDateTime distributedTime, Long userId) {
         this.token = token;
         this.distributedTime = distributedTime;
         this.userId = userId;
@@ -28,11 +28,11 @@ public class AccessToken {
         this.token = token;
     }
 
-    public DateTime getDistributedTime() {
+    public LocalDateTime getDistributedTime() {
         return distributedTime;
     }
 
-    public void setDistributedTime(DateTime distributedTime) {
+    public void setDistributedTime(LocalDateTime distributedTime) {
         this.distributedTime = distributedTime;
     }
 
