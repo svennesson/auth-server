@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>se.svennesson</groupId>
-    <artifactId>izettle-test</artifactId>
+    <artifactId>auth-server</artifactId>
     <version>0.0.1</version>
 
     <dependencies>
@@ -79,7 +79,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>se.svennesson.izettle-test.application.Application</mainClass>
+                                    <mainClass>se.svennesson.authserver.AuthServerApplication</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

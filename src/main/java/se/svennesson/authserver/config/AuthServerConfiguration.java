@@ -7,7 +7,7 @@ import io.dropwizard.db.DataSourceFactory;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-public class IzettleConfiguration extends Configuration{
+public class AuthServerConfiguration extends Configuration{
 
     @Valid
     @NotNull

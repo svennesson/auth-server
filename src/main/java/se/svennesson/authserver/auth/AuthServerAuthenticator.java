@@ -12,12 +12,12 @@ import se.svennesson.authserver.utils.AccessTokenUtil;
 import java.util.Optional;
 import java.util.UUID;
 
-public class IzettleAuthenticator implements Authenticator<String, User> {
+public class AuthServerAuthenticator implements Authenticator<String, User> {
 
     private final AccessTokenService tokenService;
     private final UserService userService;
 
-    public IzettleAuthenticator(AccessTokenService tokenService, UserService userService) {
+    public AuthServerAuthenticator(AccessTokenService tokenService, UserService userService) {
         this.tokenService = tokenService;
         this.userService = userService;
     }

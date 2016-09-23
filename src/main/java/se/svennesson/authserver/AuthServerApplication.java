@@ -11,8 +11,8 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.flywaydb.core.Flyway;
 import org.skife.jdbi.v2.DBI;
-import se.svennesson.authserver.auth.IzettleAuthenticator;
-import se.svennesson.authserver.config.IzettleConfiguration;
+import se.svennesson.authserver.auth.AuthServerAuthenticator;
+import se.svennesson.authserver.config.AuthServerConfiguration;
 import se.svennesson.authserver.dao.LoginAttemptDAO;
 import se.svennesson.authserver.dao.AccessTokenDao;
 import se.svennesson.authserver.dao.UserDAO;
@@ -22,22 +22,22 @@ import se.svennesson.authserver.services.AccessTokenService;
 import se.svennesson.authserver.services.LoginAttemptsService;
 import se.svennesson.authserver.services.UserService;
 
-public class IzettleApplication extends Application<IzettleConfiguration> {
+public class AuthServerApplication extends Application<AuthServerConfiguration> {
 
     public static void main(String[] args) throws Exception {
-        new IzettleApplication().run(args);
+        new AuthServerApplication().run(args);
     }
 
     @Override
-    public void initialize(Bootstrap<IzettleConfiguration> bootstrap) {
+    public void initialize(Bootstrap<AuthServerConfiguration> bootstrap) {
         bootstrap.addBundle(new DBIExceptionsBundle());
     }
 
     @Override
-    public void run(IzettleConfiguration izettleConfiguration, Environment environment) throws Exception {
+    public void run(AuthServerConfiguration authServerConfiguration, Environment environment) throws Exception {
 
         // Flyway
-        final DataSourceFactory dataSourceFactory = izettleConfiguration.getDataSourceFactory();
+        final DataSourceFactory dataSourceFactory = authServerConfiguration.getDataSourceFactory();
         final Flyway flyway = new Flyway();
         flyway.setDataSource(dataSourceFactory.getUrl(), dataSourceFactory.getUser(), dataSourceFactory.getPassword());
         flyway.migrate();
@@ -62,7 +62,7 @@ public class IzettleApplication extends Application<IzettleConfiguration> {
         // Auth
         environment.jersey().register(new AuthDynamicFeature(
                 new OAuthCredentialAuthFilter.Builder<User>()
-                        .setAuthenticator(new IzettleAuthenticator(tokenService, userService))
+                        .setAuthenticator(new AuthServerAuthenticator(tokenService, userService))
                         .setPrefix("Bearer")
                         .buildAuthFilter()));
         environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
