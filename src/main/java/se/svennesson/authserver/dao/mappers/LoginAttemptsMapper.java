@@ -18,6 +18,6 @@ public class LoginAttemptsMapper implements ResultSetMapper<LoginAttempt>{
                 resultSet.getLong("id"),
                 resultSet.getLong("user_id"),
                 resultSet.getBoolean("success"),
-                resultSet.getTimestamp("timestampz").toLocalDateTime().atZone(ZoneId.ofOffset("UTC", ZoneOffset.ofHours(2))).toLocalDateTime());
+                resultSet.getTimestamp("timestampz").toLocalDateTime());
     }
 }
