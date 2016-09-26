@@ -31,7 +31,7 @@ public class AuthServerAuthenticator implements Authenticator<String, User> {
                     .orElseThrow(UnAuthorizedException::new);
 
             return userService.findById(accessToken.getUserId());
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
             return Optional.empty();
         }
     }
