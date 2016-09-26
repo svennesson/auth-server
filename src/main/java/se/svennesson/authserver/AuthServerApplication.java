@@ -9,6 +9,7 @@ import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.jdbi.bundles.DBIExceptionsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.flywaydb.core.Flyway;
 import org.skife.jdbi.v2.DBI;
 import se.svennesson.authserver.auth.AuthServerAuthenticator;
@@ -21,6 +22,12 @@ import se.svennesson.authserver.resources.UserResource;
 import se.svennesson.authserver.services.AccessTokenService;
 import se.svennesson.authserver.services.LoginAttemptsService;
 import se.svennesson.authserver.services.UserService;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
+import java.util.EnumSet;
+
+import static org.eclipse.jetty.servlets.CrossOriginFilter.*;
 
 public class AuthServerApplication extends Application<AuthServerConfiguration> {
 
@@ -41,6 +48,14 @@ public class AuthServerApplication extends Application<AuthServerConfiguration> 
         final Flyway flyway = new Flyway();
         flyway.setDataSource(dataSourceFactory.getUrl(), dataSourceFactory.getUser(), dataSourceFactory.getPassword());
         flyway.migrate();
+
+        //CORS
+        final FilterRegistration.Dynamic corsFilter = environment.servlets().addFilter("CORSFilter", CrossOriginFilter.class);
+        corsFilter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, "/*");
+        corsFilter.setInitParameter(ALLOWED_METHODS_PARAM, "GET, PUT, POST, OPTIONS, DELETE, HEAD");
+        corsFilter.setInitParameter(ALLOWED_ORIGINS_PARAM, "*");
+        corsFilter.setInitParameter(ALLOWED_HEADERS_PARAM, "Origin, Content-Type, Accept, Authorization");
+        corsFilter.setInitParameter(ALLOW_CREDENTIALS_PARAM, "true");
 
         // DBI
         final DBIFactory factory = new DBIFactory();
